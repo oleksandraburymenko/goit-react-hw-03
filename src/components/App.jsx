@@ -89,3 +89,5 @@ componentDidUpdate(prevProps,prevState) {
   }
 
 };
+
+export default App;
