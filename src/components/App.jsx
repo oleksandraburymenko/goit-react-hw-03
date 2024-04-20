@@ -1,6 +1,6 @@
 import css from './Phonebook.module.css';
 import { ContactForm } from './ContactForm';
-import {Section} from './Section';
+import Section from './Section';
 import { Component } from 'react';
 import { Filter } from './Filter';
 import { ContactList } from './ContactList';
