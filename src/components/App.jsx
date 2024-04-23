@@ -4,6 +4,7 @@ import "modern-normalize";
 import  ContactForm  from './ContactForm';
 import  SearchBox  from './SearchBox';
 import  ContactList  from './ContactList';
+import allContacts from "./allContacts.json";
 
 
 export default function App() {
