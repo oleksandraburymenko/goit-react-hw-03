@@ -2,18 +2,18 @@ import { Component } from "react";
 import css from './Phonebook.module.css';
 import PropTypes from 'prop-types';
 
-export class Filter extends Component {
+export class SearchBox extends Component {
     render () {
         return (
             <>
-            <p className={css.filter_text}>
+            <p className={css.SearchBox_text}>
                 Find contacts by name
             </p>
             <input
             type="text"
             name="filter"
-            className={css.filter_input}
-            value={this.props.filter}
+            className={css.SearchBox_input}
+            value={this.props.SearchBox}
             onChange={this.props.filterContact}
             ></input>
             </>
@@ -22,7 +22,7 @@ export class Filter extends Component {
 }
 
 
-Filter.propTypes = {
+SearchBox.propTypes = {
     filter: PropTypes.string.isRequired,
     filterContact: PropTypes.func.isRequired,
 }

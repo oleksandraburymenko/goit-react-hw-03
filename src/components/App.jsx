@@ -2,7 +2,7 @@ import css from './Phonebook.module.css';
 import { ContactForm } from './ContactForm';
 import Section from './Section';
 import { Component } from 'react';
-import { Filter } from './Filter';
+import { SearchBox } from './SearchBox';
 import { ContactList } from './ContactList';
 
 
@@ -74,8 +74,8 @@ componentDidUpdate(prevProps,prevState) {
           <ContactForm onSubmit = { this.formSubmitHandler }/>
         </Section>
         <Section title="Contacts">
-          <Filter
-          filter={filter}
+          <SearchBox
+          filter={SearchBox}
           filterContact={this.filterContact}
           />
           <ContactList
