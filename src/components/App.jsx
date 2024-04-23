@@ -6,88 +6,48 @@ import  SearchBox  from './SearchBox';
 import  ContactList  from './ContactList';
 
 
-
-export class App extends Component {
-  state = {
-    contacts: [
-      {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
-      {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
-      {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
-      {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
-    ],
-    filter: '',
-  };
-
-
-componentDidMount() {
-  const contacts = localStorage.getItem('contacts')
-  if (contacts) {
-      this.setState({contacts:JSON.parse(contacts)})
-  }
-}
-componentDidUpdate(prevProps,prevState) {
-  if (this.state.contacts !== prevState.contacts) {
-    localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
-  }
-}
-
-
-  filterContact = event => {
-    this.setState ({filter: event.target.value});
-  };
-
-  formSubmitHandler = ({ name, number }) => {
-    const newContact = {
-      id: shortid.generate(),
-      name,
-      number
-    };
-    
-    if (this.state.contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase())) {
-      alert(`${name} is already in contacts`);
-    } else {
-      this.setState(prevState => ({
-        contacts: [...prevState.contacts, newContact],
-      }));
+export default function App() {
+  const [contacts, setContacts] = useState(() => {
+    const savedContacts = localStorage.getItem("updContacts");
+    if (savedContacts !== null) {
+      return JSON.parse(savedContacts);
     }
-  }
+    return allContacts;
+  });
 
-  deleteContact = id => {
-    this.setState(prevContact => ({
-      contacts: prevContact.contacts.filter(contact => contact.id !== id)
-    }))
-  }
-  
-  normalizedContact = () => {
-    const { contacts, filter } = this.state;
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase()),
-      );
-  }
+  const [filter, setFilter] = useState("");
 
-  render () {
-    const { filter } = this.state;
-    return (
-      <div className={css.container}>
-        <>
-        <Section title="Phonebook">
-          <ContactForm onSubmit = { this.formSubmitHandler }/>
-        </Section>
-        <Section title="Contacts">
-          <SearchBox
-          filter={SearchBox}
-          filterContact={this.filterContact}
-          />
-          <ContactList
-          contacts={this.normalizedContact()}
-          deleteContact={this.deleteContact}
-          />
-        </Section>
-        </>
-      </div>
-    );
-  }
+  useEffect(() => {
+    localStorage.setItem("updContacts", JSON.stringify(contacts));
+  }, [contacts]);
 
-};
+  const addContacts = (newContact) => {
+    setContacts((prevContacts) => {
+      return [...prevContacts, newContact];
+    });
+  };
 
-export default App;
+
+  const deleteContact = (contactId)=>{
+    setContacts(prevContacts=> {
+      return prevContacts.filter(contact=> contact.id !== contactId)}
+    )
+      }
+    
+  const filterContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  console.log(filterContacts);
+
+  return (
+    <div className={css.container}>
+      <h1 className={css.title}>Phonebook</h1>
+      <ContactForm onAdd={addContacts} />
+      <SearchBox onFilter={setFilter} value={filter} />
+      <ContactList contacts={filterContacts} onDelete={deleteContact} />
+    </div>
+  );
+}
+
+
